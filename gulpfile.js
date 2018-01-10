@@ -27,61 +27,63 @@ const paths = {
 };
 
 function clean() {
-    return del(paths.build);
+  return del(paths.build);
 }
 
 function styles() {
-    return gulp.src(paths.src + "scss/styles.scss")
-        .pipe(plumber())
-        .pipe(sourcemaps.init())
-        .pipe(sassGlob())
-        .pipe(sass({
-            includePaths: require('node-normalize-scss').includePaths
-        }))
-        .pipe(groupMediaQueries())
-        .pipe(cleanCSS())
-        .pipe(rename({ suffix: ".min" }))
-        .pipe(sourcemaps.write("/"))
-        .pipe(gulp.dest(paths.build + "css/"));
+  return gulp.src(paths.src + "scss/styles.scss")
+    .pipe(plumber())
+    .pipe(sourcemaps.init())
+    .pipe(sassGlob())
+    .pipe(sass({
+      includePaths: require('node-normalize-scss').includePaths
+    }))
+    .pipe(groupMediaQueries())
+    .pipe(cleanCSS())
+    .pipe(rename({ suffix: ".min" }))
+    .pipe(sourcemaps.write("/"))
+    .pipe(gulp.dest(paths.build + "css/"));
 }
 
 function scripts() {
-    return gulp.src(paths.src + "js/**/*.js")
-        .pipe(plumber())
-        .pipe(babel({ presets: ['env'] }))
-        .pipe(uglify())
-        .pipe(concat("scripts.min.js"))
-        .pipe(gulp.dest(paths.build + "js/"));
+  return gulp.src(paths.src + "js/**/*.js")
+    .pipe(plumber())
+    .pipe(sourcemaps.init())
+    .pipe(babel({ presets: ['env'] }))
+    .pipe(uglify())
+    .pipe(concat("scripts.min.js"))
+    .pipe(sourcemaps.write("/"))
+    .pipe(gulp.dest(paths.build + "js/"));
 }
 
 function html() {
-    return gulp.src(paths.src + "*.html")
-        .pipe(plumber())
-        // .pipe(replace(/\n\s*<!--DEV[\s\S]+?-->/gm, ""))
-        .pipe(gulp.dest(paths.build));
+  return gulp.src(paths.src + "*.html")
+    .pipe(plumber())
+    // .pipe(replace(/\n\s*<!--DEV[\s\S]+?-->/gm, ""))
+    .pipe(gulp.dest(paths.build));
 }
 
 function images() {
-    return gulp.src(paths.src + "img/*.*")
-        .pipe(imagemin({ progressive: true }))
-        .pipe(gulp.dest(paths.build + "img/"));
+  return gulp.src(paths.src + "img/*.*")
+    .pipe(imagemin({ progressive: true }))
+    .pipe(gulp.dest(paths.build + "img/"));
 }
 
 function watch() {
-    gulp.watch(paths.src + "scss/**/*.scss", styles);
-    gulp.watch(paths.src + "js/**/*.js", scripts);
-    gulp.watch(paths.src + "*.html", html);
+  gulp.watch(paths.src + "scss/**/*.scss", styles);
+  gulp.watch(paths.src + "js/**/*.js", scripts);
+  gulp.watch(paths.src + "*.html", html);
 
-    gulp.watch(paths.src + "img/*.*", images);
+  gulp.watch(paths.src + "img/*.*", images);
 }
 
 function serve() {
-    browserSync.init({
-        server: {
-            baseDir: paths.build
-        }
-    });
-    browserSync.watch(paths.build + "**/*.*", browserSync.reload);
+  browserSync.init({
+    server: {
+      baseDir: paths.build
+    }
+  });
+  browserSync.watch(paths.build + "**/*.*", browserSync.reload);
 }
 
 gulp.task("clean", clean);
@@ -92,7 +94,7 @@ gulp.task("images", images);
 gulp.task("watch", watch);
 gulp.task("serve", serve);
 gulp.task("default", gulp.series(
-    clean,
-    gulp.parallel(styles, scripts, html, images),
-    gulp.parallel(watch, serve)
+  clean,
+  gulp.parallel(styles, scripts, html, images),
+  gulp.parallel(watch, serve)
 ));

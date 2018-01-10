@@ -1,0 +1,11 @@
+.text-area {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  &__ad {
+    flex: 2;
+    font-size: 22px;
+    color: $text-silver;
+    margin-bottom: 40px; //85px
+  }
+}

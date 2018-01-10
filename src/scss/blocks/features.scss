@@ -1,0 +1,46 @@
+.features {
+  // display: flex;
+  // flex-direction: column; // flex: 1; // height: 80%;
+  &__item {
+    flex: 1;
+    display: flex;
+    margin-bottom: 10px;
+    &:hover {
+      .features__btn {
+        background-color: $btn-hover;
+      }
+
+      .features__descr {
+        color: $text-gray;
+      }
+
+      .features__title {
+        font-weight: bold;
+      }
+    }
+  }
+
+  &__btn {
+    width: 18px;
+    height: 18px;
+    border: 2px solid $btn-hover;
+    margin-right: auto; // &:hover {
+//   background-color: $btn-hover;
+// }
+  }
+
+  &__text {
+    width: 90%;
+  }
+
+  &__title {
+    font-size: 18px;
+    color: $text-gray;
+    margin-bottom: 6px;
+  }
+
+  &__descr {
+    font-size: 14px;
+    color: $text-silver;
+  }
+}
